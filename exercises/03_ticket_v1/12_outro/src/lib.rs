@@ -18,11 +18,61 @@ pub struct Order {
 }
 
 impl Order {
+    fn check_name(name: &String) {
+        if name.is_empty() {
+            panic!("Title cannot be empty");
+        }
+        if name.len() > 300 {
+            panic!("Title cannot be longer than 300 bytes");
+        }
+    }
+
+    fn check_quantity(quantity: &u32) {
+        if *quantity == 0 {
+            panic!("Quantity cannot be 0");
+        }
+    }
+
+    fn check_price(price: &u32) {
+        if *price == 0 {
+            panic!("Unit Price cannot be 0");
+        }
+    }
     pub fn new(product_name: String, quantity: u32, unit_price: u32) -> Order {
+        Self::check_name(&product_name);
+        Self::check_quantity(&quantity);
+        Self::check_price(&unit_price);
         Order{
             product_name,
             quantity,
             unit_price
         }
+    }
+
+    pub fn product_name(&self) -> &String {
+        &self.product_name
+    }
+    pub fn quantity(&self) -> &u32 {
+        &self.quantity
+    }
+    pub fn unit_price(&self) -> &u32 {
+        &self.unit_price
+    }
+
+    pub fn set_product_name(&mut self, name: String) {
+        Order::check_name(&name);
+        self.product_name = name;
+    }
+    pub fn set_quantity(&mut self, quantity: u32) {
+        Order::check_quantity(&quantity);
+        self.quantity = quantity;
+    }
+    pub fn set_unit_price(&mut self, price: u32) {
+        Order::check_price(&price);
+        self.unit_price = price;
+    }
+
+    pub fn total(&self) -> u32 {
+        self.quantity * self.unit_price
     }
 }
